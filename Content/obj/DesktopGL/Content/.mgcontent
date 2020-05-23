@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>F:/source_codes/Github/EG2DCS/EG2DCS/Content/File.spritefont</File>
+    <File>F:/source_codes/Github/EG2DCS/EG2DCS/Content/Null.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File>Arial_12.spritefont</File>
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

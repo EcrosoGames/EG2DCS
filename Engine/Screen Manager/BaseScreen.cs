@@ -10,6 +10,7 @@ namespace EG2DCS.Engine.Screen_Manager
     {
         public string Name;
         public ScreenState State;
+        public ScreenState LastState;
         public float Position;
         public bool Focused;
         public bool GrabFocus;

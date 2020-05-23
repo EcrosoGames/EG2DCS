@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EG2DCS.Engine.Globals;
+using EG2DCS.Engine.Screen_Manager;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace EG2DCS
 {
@@ -9,12 +12,10 @@ namespace EG2DCS
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        
+        ScreenManager ScreenManager;
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Globals.Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
 
@@ -26,7 +27,15 @@ namespace EG2DCS
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            this.IsMouseVisible = true;
+            Globals.GameSize = new Vector2(1280, 720);
+            Globals.Graphics.PreferredBackBufferWidth = (int)Globals.GameSize.X;
+            Globals.Graphics.PreferredBackBufferHeight = (int)Globals.GameSize.Y;
+            Globals.BackBuffer = new RenderTarget2D(Globals.Graphics.GraphicsDevice, (int)Globals.GameSize.X, (int)Globals.GameSize.Y, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            Globals.Graphics.SynchronizeWithVerticalRetrace = true;
+            this.IsFixedTimeStep = true;
+            Globals.Graphics.ApplyChanges();
+            Globals.Debugging = true;
 
             base.Initialize();
         }
@@ -38,9 +47,16 @@ namespace EG2DCS
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Globals.SpriteBatch = new SpriteBatch(GraphicsDevice);
+            Globals.Content = this.Content;
+            Textures.Load();
+            Sounds.Load();
+            Fonts.Load();
+            ScreenManager = new ScreenManager();
+            //Add screens here
 
-            // TODO: use this.Content to load your game content here
+
+
         }
 
         /// <summary>
@@ -59,12 +75,11 @@ namespace EG2DCS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
+            Globals.WindowFocused = this.IsActive;
+            Globals.GameTime = gameTime;
+            ScreenManager.Update();
+            //Input.Update();
         }
 
         /// <summary>
@@ -73,11 +88,14 @@ namespace EG2DCS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            Globals.Graphics.GraphicsDevice.SetRenderTarget(Globals.BackBuffer);
+            Globals.Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
             base.Draw(gameTime);
+            ScreenManager.Draw();
+            Globals.Graphics.GraphicsDevice.SetRenderTarget(null);
+            Globals.SpriteBatch.Begin();
+            Globals.SpriteBatch.Draw(Globals.BackBuffer, new Rectangle(0, 0, Globals.Graphics.GraphicsDevice.Viewport.Width, Globals.Graphics.GraphicsDevice.Viewport.Height), new Color(255,255,255));
+            Globals.SpriteBatch.End();
         }
     }
 }

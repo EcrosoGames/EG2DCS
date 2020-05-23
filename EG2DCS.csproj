@@ -42,6 +42,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\Globals\Fonts.cs" />
+    <Compile Include="Engine\Globals\Globals.cs" />
+    <Compile Include="Engine\Globals\Input.cs" />
+    <Compile Include="Engine\Globals\Sounds.cs" />
+    <Compile Include="Engine\Globals\Textures.cs" />
     <Compile Include="Engine\Screen Manager\BaseScreen.cs" />
     <Compile Include="Engine\Screen Manager\ScreenManager.cs" />
     <Compile Include="Main\Game1.cs" />
@@ -110,7 +115,6 @@
   <ItemGroup>
     <Folder Include="Engine\Add Ons\" />
     <Folder Include="Engine\Blanks\" />
-    <Folder Include="Engine\Globals\" />
     <Folder Include="Engine\Sample Screens\" />
     <Folder Include="Game Files\" />
   </ItemGroup>

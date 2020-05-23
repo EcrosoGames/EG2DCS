@@ -17,3 +17,5 @@ F:\source_codes\Github\EG2DCS\EG2DCS\obj\Debug\EG2DCS.csproj.CoreCompileInputs.c
 F:\source_codes\Github\EG2DCS\EG2DCS\obj\Debug\EG2DCS.csproj.CopyComplete
 F:\source_codes\Github\EG2DCS\EG2DCS\obj\Debug\EG2DCS.exe
 F:\source_codes\Github\EG2DCS\EG2DCS\obj\Debug\EG2DCS.pdb
+F:\source_codes\Github\EG2DCS\EG2DCS\bin\DesktopGL\AnyCPU\Debug\Content\Null.xnb
+F:\source_codes\Github\EG2DCS\EG2DCS\bin\DesktopGL\AnyCPU\Debug\Content\Arial_12.xnb

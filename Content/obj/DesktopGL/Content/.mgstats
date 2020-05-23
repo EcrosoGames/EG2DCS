@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"F:/source_codes/Github/EG2DCS/EG2DCS/Content/File.spritefont","F:/source_codes/Github/EG2DCS/EG2DCS/Content/bin/DesktopGL/Content/Arial_12.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21521,0.2561297
+"F:/source_codes/Github/EG2DCS/EG2DCS/Content/Null.png","F:/source_codes/Github/EG2DCS/EG2DCS/Content/bin/DesktopGL/Content/Null.xnb","TextureProcessor","Texture2DContent",119,89,0.2770152

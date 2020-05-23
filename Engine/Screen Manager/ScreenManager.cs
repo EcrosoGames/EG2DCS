@@ -10,20 +10,26 @@ namespace EG2DCS.Engine.Screen_Manager
     {
         Active, Shutdown, Frozen, Paused, Background, Inactive
     }
-
+    //           |Draw|Update|Input|
+    //Active     | X  |   X  |  X  |
+    //Shutdown   |    |      |     |
+    //Frozen     | X  |   X  |     |
+    //Paused     | X  |      |     |
+    //Background |    |   X  |     |
+    //Inactive   |    |      |     |
     class ScreenManager
     {
-        List<BaseScreen> Screens = new List<BaseScreen>();
+       static List<BaseScreen> Screens = new List<BaseScreen>();
         List<BaseScreen> NewScreens = new List<BaseScreen>();
-        //Private DebugScreen as new Debug()
 
         public void New()
         {
-            //Add Debug Screen
+            //Left this here in case we have anything that needs to start upon loading Screen Manager
         }
         public void Update()
         {
             List<BaseScreen> RemoveScreens = new List<BaseScreen>();
+            //Create a list of screens to remove so you can remove them all at once
             foreach (BaseScreen FoundScreen in Screens)
             {
                 if (FoundScreen.State == ScreenState.Shutdown)
@@ -35,18 +41,23 @@ namespace EG2DCS.Engine.Screen_Manager
                     FoundScreen.Focused = false;
                 }
             }
+            //Remove all screens to remove
             foreach (BaseScreen FoundScreen in RemoveScreens)
             {
                 Screens.Remove(FoundScreen);
             }
+            //Add all new screens pending
             foreach (BaseScreen FoundScreen in NewScreens)
             {
                 Screens.Add(FoundScreen);
             }
+            //Clear lists of pending screens
             NewScreens.Clear();
+            RemoveScreens.Clear();
+            //Find the screen to focus on
             if (Screens.Count > 0)
             {
-                for(int i=0; i < Screens.Count; i++)
+                for (int i = 0; i < Screens.Count; i++)
                 {
                     if (Screens[i].GrabFocus)
                     {
@@ -55,6 +66,7 @@ namespace EG2DCS.Engine.Screen_Manager
                     }
                 }
             }
+            //Update the appropriate screens
             foreach (BaseScreen FoundScreen in Screens)
             {
                 switch (FoundScreen.State)
@@ -72,6 +84,7 @@ namespace EG2DCS.Engine.Screen_Manager
             }
 
         }
+        //Draw the appropriate screens
         public void Draw()
         {
             foreach (BaseScreen FoundScreen in Screens)
@@ -90,10 +103,12 @@ namespace EG2DCS.Engine.Screen_Manager
                 }
             }
         }
-        public  void AddScreen(BaseScreen screen)
+        //Add a new screen
+        public void AddScreen(BaseScreen screen)
         {
             NewScreens.Add(screen);
         }
+        //remove a screen
         public void RemoveScreen(string screen)
         {
             foreach (BaseScreen FoundScreen in Screens)
@@ -105,7 +120,8 @@ namespace EG2DCS.Engine.Screen_Manager
                 }
             }
         }
-        public bool Find(string Name)
+        //Find if a screen is loaded
+        public static bool Find(string Name)
         {
             foreach (BaseScreen FoundScreen in Screens)
             {
@@ -113,14 +129,81 @@ namespace EG2DCS.Engine.Screen_Manager
                 {
                     return true;
                 }
-                         }
+            }
             return false;
         }
-
-
-
-
-
-
+        //set all screens to paused if overridable, exception for focused screen
+        public static void PauseAll(string exception)
+        {
+            foreach (BaseScreen FoundScreen in Screens)
+            {
+                if (FoundScreen.Name != exception)
+                {
+                    if (FoundScreen.Overridable)
+                    {
+                        FoundScreen.LastState = FoundScreen.State;
+                        FoundScreen.State = ScreenState.Paused;
+                    }
+                }
+            }
+        }
+        //set all screens to frozen if overridable, exception for focused screen
+        public static void FreezeAll(string exception)
+        {
+            foreach (BaseScreen FoundScreen in Screens)
+            {
+                if (FoundScreen.Name != exception)
+                {
+                    if (FoundScreen.Overridable)
+                    {
+                        FoundScreen.LastState = FoundScreen.State;
+                        FoundScreen.State = ScreenState.Frozen;
+                    }
+                }
+            }
+        }
+        //set all screens back to their original state
+        public static void ResumeAll()
+        {
+            foreach (BaseScreen FoundScreen in Screens)
+            {
+                if (FoundScreen.Overridable)
+                {
+                    FoundScreen.State = FoundScreen.LastState;
+                }
+            }
+        }
+        //MURDER all screens, option to force if overridable doesn't matter(ex. game over), also option for exception so you don't delete all your screens
+        public static void KillAll(bool Force, string exception)
+        {
+            foreach (BaseScreen FoundScreen in Screens)
+            {
+                if (FoundScreen.Name != exception)
+                {
+                    if (Force)
+                    {
+                        FoundScreen.State = ScreenState.Shutdown;
+                    }
+                    else
+                    {
+                        if (FoundScreen.Overridable)
+                        {
+                            FoundScreen.State = ScreenState.Shutdown;
+                        }
+                    }
+                }
+            }
+        }
+        //Manually set the state of a screen from another screen
+        public static void SetState(ScreenState State, string name)
+        {
+            foreach (BaseScreen FoundScreen in Screens)
+            {
+                if (name == FoundScreen.Name)
+                {
+                    FoundScreen.State = State;
+                }
+            }
+        }
     }
 }

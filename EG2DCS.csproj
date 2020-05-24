@@ -42,6 +42,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Engine\Add Ons\DrawLive.cs" />
+    <Compile Include="Engine\Add Ons\Maths.cs" />
+    <Compile Include="Engine\Blanks\Default_Screen.cs" />
     <Compile Include="Engine\Globals\Fonts.cs" />
     <Compile Include="Engine\Globals\Globals.cs" />
     <Compile Include="Engine\Globals\Input.cs" />
@@ -49,6 +52,7 @@
     <Compile Include="Engine\Globals\Textures.cs" />
     <Compile Include="Engine\Screen Manager\BaseScreen.cs" />
     <Compile Include="Engine\Screen Manager\ScreenManager.cs" />
+    <Compile Include="Game Files\Gametest.cs" />
     <Compile Include="Main\Game1.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,10 +117,7 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Engine\Add Ons\" />
-    <Folder Include="Engine\Blanks\" />
     <Folder Include="Engine\Sample Screens\" />
-    <Folder Include="Game Files\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

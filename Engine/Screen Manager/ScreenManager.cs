@@ -93,6 +93,7 @@ namespace EG2DCS.Engine.Screen_Manager
                 {
                     case ScreenState.Active:
                         FoundScreen.Draw();
+                        FoundScreen.HandleInput();
                         break;
                     case ScreenState.Frozen:
                         FoundScreen.Draw();

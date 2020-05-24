@@ -1,4 +1,5 @@
-﻿using EG2DCS.Engine.Globals;
+﻿using EG2DCS.Engine.Blanks;
+using EG2DCS.Engine.Globals;
 using EG2DCS.Engine.Screen_Manager;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +55,7 @@ namespace EG2DCS
             Fonts.Load();
             ScreenManager = new ScreenManager();
             //Add screens here
-
+            ScreenManager.AddScreen(new Gametest());
 
 
         }
@@ -79,7 +80,7 @@ namespace EG2DCS
             Globals.WindowFocused = this.IsActive;
             Globals.GameTime = gameTime;
             ScreenManager.Update();
-            //Input.Update();
+            Input.Update();
         }
 
         /// <summary>

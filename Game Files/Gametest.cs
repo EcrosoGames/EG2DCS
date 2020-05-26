@@ -38,6 +38,10 @@ namespace EG2DCS.Engine.Blanks
             {
                 PlayerPos.X += 1;
             }
+            if (Input.KeyPressed(Keys.Space))
+            {
+                ScreenManager.AddScreen(new Default_Screen());
+            }
         }
         public override void Update()
         {

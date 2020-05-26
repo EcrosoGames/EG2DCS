@@ -92,12 +92,12 @@ namespace EG2DCS.Engine.Screen_Manager
             }
         }
         //Add a new screen
-        public void AddScreen(BaseScreen screen)
+        public static void AddScreen(BaseScreen screen)
         {
             Screens.Add(screen);
         }
         //remove a screen
-        public void RemoveScreen(string screen)
+        public static  void RemoveScreen(string screen)
         {
             foreach (BaseScreen FoundScreen in Screens)
             {

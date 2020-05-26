@@ -12,7 +12,7 @@ namespace EG2DCS.Engine.Globals
         public static SpriteFont Arial_12;
         public static void Load()
         {
-            Arial_12 = Globals.Content.Load<SpriteFont>("Arial_12");
+            Arial_12 = Universal.Content.Load<SpriteFont>("Arial_12");
 
         }
     }

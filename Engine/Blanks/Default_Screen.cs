@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using EG2DCS.Engine.Globals;
 
 namespace EG2DCS.Engine.Blanks
 {
@@ -23,7 +24,7 @@ namespace EG2DCS.Engine.Blanks
         }
         public override void Update()
         {
-            AniTime += Globals.Globals.GameTime.ElapsedGameTime.TotalMilliseconds;
+            AniTime += Universal.GameTime.ElapsedGameTime.TotalMilliseconds;
             if (AniTime > 2)
             {
                 AniTime = 0;
@@ -32,11 +33,11 @@ namespace EG2DCS.Engine.Blanks
         }
         public override void Draw()
         {
-            Globals.Globals.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            Universal.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
 
 
-            Globals.Globals.SpriteBatch.End();
+            Universal.SpriteBatch.End();
         }
     }
 }

@@ -46,7 +46,7 @@
     <Compile Include="Engine\Add Ons\Maths.cs" />
     <Compile Include="Engine\Blanks\Default_Screen.cs" />
     <Compile Include="Engine\Globals\Fonts.cs" />
-    <Compile Include="Engine\Globals\Globals.cs" />
+    <Compile Include="Engine\Globals\Universal.cs" />
     <Compile Include="Engine\Globals\Input.cs" />
     <Compile Include="Engine\Globals\Sounds.cs" />
     <Compile Include="Engine\Globals\Textures.cs" />

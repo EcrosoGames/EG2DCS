@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EG2DCS.Engine.Globals
 {
-    class Globals
+    class Universal
     {
         public static ContentManager Content;
         public static GraphicsDeviceManager Graphics;

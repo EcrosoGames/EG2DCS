@@ -12,7 +12,7 @@ namespace EG2DCS.Engine.Globals
         public static Texture2D Null;
         public static void Load()
         {
-            Null = Globals.Content.Load<Texture2D>("Null");
+            Null = Universal.Content.Load<Texture2D>("Null");
 
         }
 

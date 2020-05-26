@@ -19,8 +19,7 @@ namespace EG2DCS.Engine.Screen_Manager
     //Inactive   |    |      |     |
     class ScreenManager
     {
-       static List<BaseScreen> Screens = new List<BaseScreen>();
-        List<BaseScreen> NewScreens = new List<BaseScreen>();
+        private static List<BaseScreen> Screens = new List<BaseScreen>();
 
         public void New()
         {
@@ -28,32 +27,20 @@ namespace EG2DCS.Engine.Screen_Manager
         }
         public void Update()
         {
-            List<BaseScreen> RemoveScreens = new List<BaseScreen>();
             //Create a list of screens to remove so you can remove them all at once
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.State == ScreenState.Shutdown)
                 {
-                    RemoveScreens.Add(FoundScreen);
+                    Screens.RemoveAt(i);
                 }
                 else
                 {
                     FoundScreen.Focused = false;
                 }
             }
-            //Remove all screens to remove
-            foreach (BaseScreen FoundScreen in RemoveScreens)
-            {
-                Screens.Remove(FoundScreen);
-            }
-            //Add all new screens pending
-            foreach (BaseScreen FoundScreen in NewScreens)
-            {
-                Screens.Add(FoundScreen);
-            }
-            //Clear lists of pending screens
-            NewScreens.Clear();
-            RemoveScreens.Clear();
+
             //Find the screen to focus on
             if (Screens.Count > 0)
             {
@@ -107,7 +94,7 @@ namespace EG2DCS.Engine.Screen_Manager
         //Add a new screen
         public void AddScreen(BaseScreen screen)
         {
-            NewScreens.Add(screen);
+            Screens.Add(screen);
         }
         //remove a screen
         public void RemoveScreen(string screen)

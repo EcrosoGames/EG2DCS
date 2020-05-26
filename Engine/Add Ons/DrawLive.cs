@@ -1,11 +1,6 @@
 ﻿using EG2DCS.Engine.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Add_Ons
 {
@@ -37,9 +32,9 @@ namespace EG2DCS.Engine.Add_Ons
         {
             freedraw.GraphicsDevice.SetRenderTarget(null);
             Color[] col = new Color[Scren.Width * Scren.Height - 1];
-            Scren.GetData<Color>(col);
+            Scren.GetData(col);
             permGFX = new Texture2D(Universal.Graphics.GraphicsDevice, Scren.Width, Scren.Height);
-            permGFX.SetData<Color>(col);
+            permGFX.SetData(col);
             Scren.Dispose();
             livedraw.Dispose();
             return permGFX;
@@ -47,7 +42,7 @@ namespace EG2DCS.Engine.Add_Ons
         public static Texture2D Transparancy(Texture2D td2, Color col)
         {
             Color[] colo = new Color[Scren.Width * Scren.Height - 1];
-            td2.GetData<Color>(colo);
+            td2.GetData(colo);
             for (int q = 0; q < colo.Length - 1; q++)
             {
                 if (colo[q] == col)
@@ -55,7 +50,7 @@ namespace EG2DCS.Engine.Add_Ons
                     colo[q] = Color.Transparent; 
                 }
             }
-            td2.SetData<Color>(colo);
+            td2.SetData(colo);
             return td2;
         }
     }

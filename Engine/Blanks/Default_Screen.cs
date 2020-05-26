@@ -1,18 +1,12 @@
 ﻿using EG2DCS.Engine.Screen_Manager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using EG2DCS.Engine.Globals;
 
 namespace EG2DCS.Engine.Blanks
 {
     public class Default_Screen : BaseScreen
     {
-        Double AniTime = 0;
+        private double AniTime = 0;
         public Default_Screen()
         {
             Name = "DefaultScreen";
@@ -20,7 +14,7 @@ namespace EG2DCS.Engine.Blanks
         }
         public override void HandleInput()
         {
-            
+
         }
         public override void Update()
         {
@@ -28,7 +22,6 @@ namespace EG2DCS.Engine.Blanks
             if (AniTime > 2)
             {
                 AniTime = 0;
-
             }
         }
         public override void Draw()

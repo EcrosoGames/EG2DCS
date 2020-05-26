@@ -39,7 +39,7 @@ namespace EG2DCS
             Universal.Debugging = true;
 
             base.Initialize();
-                    }
+        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -95,7 +95,7 @@ namespace EG2DCS
             ScreenManager.Draw();
             Universal.Graphics.GraphicsDevice.SetRenderTarget(null);
             Universal.SpriteBatch.Begin();
-            Universal.SpriteBatch.Draw(Universal.BackBuffer, new Rectangle(0, 0, Universal.Graphics.GraphicsDevice.Viewport.Width, Universal.Graphics.GraphicsDevice.Viewport.Height), new Color(255,255,255));
+            Universal.SpriteBatch.Draw(Universal.BackBuffer, new Rectangle(0, 0, Universal.Graphics.GraphicsDevice.Viewport.Width, Universal.Graphics.GraphicsDevice.Viewport.Height), new Color(255, 255, 255));
             Universal.SpriteBatch.End();
         }
     }

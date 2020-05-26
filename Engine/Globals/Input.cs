@@ -1,16 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Globals
 {
     class Input
     {
-        static KeyboardState CurrentKeyState;
-        static KeyboardState LastKeyState;
+        private static KeyboardState CurrentKeyState;
+        private static KeyboardState LastKeyState;
         public static void Update()
         {
             LastKeyState = CurrentKeyState;
@@ -22,11 +17,7 @@ namespace EG2DCS.Engine.Globals
         }
         public static bool KeyPressed(Keys Key)
         {
-            if (CurrentKeyState.IsKeyDown(Key) && LastKeyState.IsKeyUp(Key))
-            {
-                return true;
-            }
-            return false;
+            return CurrentKeyState.IsKeyDown(Key) && LastKeyState.IsKeyUp(Key);
         }
     }
 }

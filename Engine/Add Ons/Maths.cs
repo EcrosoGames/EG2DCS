@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace EG2DCS.Engine.Add_Ons
@@ -11,7 +7,7 @@ namespace EG2DCS.Engine.Add_Ons
     {
         public static int RNGfree(int low, int high)
         {
-            Random Gen = new System.Random();
+            Random Gen = new Random();
             return Gen.Next(low, high + 1);
         }
         public static Random Genf;
@@ -19,7 +15,7 @@ namespace EG2DCS.Engine.Add_Ons
         {
             if (Reset)
             {
-                Genf = new System.Random(seed);
+                Genf = new Random(seed);
             }
             return Genf.Next(low, high + 1);
         }

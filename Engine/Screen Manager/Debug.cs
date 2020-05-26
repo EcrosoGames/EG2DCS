@@ -2,18 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Screen_Manager
 {
     class Debug : BaseScreen
     {
-        Double AniTime = 0;
-        string ScreenList;
+        protected double AniTime = 0;
+        protected string ScreenList;
         public Debug()
         {
             Name = "Debug";
@@ -44,10 +39,10 @@ namespace EG2DCS.Engine.Screen_Manager
             {
                 AniTime = 0;
                 ScreenList = "";
-                for (int q = 0; q < ScreenManager.Screens.Count ; q++)
+                for (int q = 0; q < ScreenManager.Screens.Count; q++)
                 {
                     ScreenList += ScreenManager.Screens[q].Name + ", ";
-                   
+
                 }
             }
         }

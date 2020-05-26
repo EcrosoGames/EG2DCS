@@ -13,13 +13,14 @@ namespace EG2DCS.Engine.Blanks
 {
     public class Gametest : BaseScreen
     {
-        Double AniTime = 0;
-        Vector2 PlayerPos = new Vector2(10, 10);
+        private double AniTime = 0;
+        private Vector2 PlayerPos = new Vector2(10, 10);
         public Gametest()
         {
             Name = "Gametest";
             State = ScreenState.Active;
         }
+
         public override void HandleInput()
         {
             if (Input.KeyDown(Keys.W))
@@ -53,7 +54,6 @@ namespace EG2DCS.Engine.Blanks
             if (AniTime > 2)
             {
                 AniTime = 0;
-
             }
         }
         public override void Draw()

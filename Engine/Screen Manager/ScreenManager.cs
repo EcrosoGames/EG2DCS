@@ -19,7 +19,10 @@ namespace EG2DCS.Engine.Screen_Manager
     //Inactive   |    |      |     |
     class ScreenManager
     {
-        private static List<BaseScreen> Screens = new List<BaseScreen>();
+        public static List<BaseScreen> Screens
+        {
+            get;
+        } = new List<BaseScreen>();
 
         public void New()
         {
@@ -27,7 +30,7 @@ namespace EG2DCS.Engine.Screen_Manager
         }
         public void Update()
         {
-            //Create a list of screens to remove so you can remove them all at once
+            //We iterate backwards here so that we can remove from the list more intuitvley and avoid concurent modifications.
             for (int i = Screens.Count() - 1; i > 0; i--)
             {
                 BaseScreen FoundScreen = Screens[i];
@@ -54,8 +57,9 @@ namespace EG2DCS.Engine.Screen_Manager
                 }
             }
             //Update the appropriate screens
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 switch (FoundScreen.State)
                 {
                     case ScreenState.Active:
@@ -74,8 +78,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //Draw the appropriate screens
         public void Draw()
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 switch (FoundScreen.State)
                 {
                     case ScreenState.Active:
@@ -99,8 +104,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //remove a screen
         public void RemoveScreen(string screen)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name == screen)
                 {
                     FoundScreen.Remove();
@@ -111,8 +117,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //Find if a screen is loaded
         public static bool Find(string Name)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (Name == FoundScreen.Name)
                 {
                     return true;
@@ -123,8 +130,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //set all screens to paused if overridable, exception for focused screen
         public static void PauseAll(string exception)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name != exception)
                 {
                     if (FoundScreen.Overridable)
@@ -138,8 +146,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //set all screens to frozen if overridable, exception for focused screen
         public static void FreezeAll(string exception)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name != exception)
                 {
                     if (FoundScreen.Overridable)
@@ -153,8 +162,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //set all screens back to their original state
         public static void ResumeAll()
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Overridable)
                 {
                     FoundScreen.State = FoundScreen.LastState;
@@ -164,8 +174,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //MURDER all screens, option to force if overridable doesn't matter(ex. game over), also option for exception so you don't delete all your screens
         public static void KillAll(bool Force, string exception)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name != exception)
                 {
                     if (Force)
@@ -185,8 +196,9 @@ namespace EG2DCS.Engine.Screen_Manager
         //Manually set the state of a screen from another screen
         public static void SetState(ScreenState State, string name)
         {
-            foreach (BaseScreen FoundScreen in Screens)
+            for (int i = Screens.Count() - 1; i > 0; i--)
             {
+                BaseScreen FoundScreen = Screens[i];
                 if (name == FoundScreen.Name)
                 {
                     FoundScreen.State = State;

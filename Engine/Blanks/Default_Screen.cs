@@ -13,7 +13,7 @@ namespace EG2DCS.Engine.Blanks
     public class Default_Screen : BaseScreen
     {
         Double AniTime = 0;
-        public void New()
+        public Default_Screen()
         {
             Name = "DefaultScreen";
             State = ScreenState.Active;

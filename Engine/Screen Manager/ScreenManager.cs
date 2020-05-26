@@ -8,7 +8,7 @@ namespace EG2DCS.Engine.Screen_Manager
 {
     public enum ScreenState
     {
-        Active, Shutdown, Frozen, Paused, Background, Inactive
+        Active, Shutdown, Frozen, Paused, Background, Inactive, Hiding
     }
     //           |Draw|Update|Input|
     //Active     | X  |   X  |  X  |
@@ -17,6 +17,7 @@ namespace EG2DCS.Engine.Screen_Manager
     //Paused     | X  |      |     |
     //Background |    |   X  |     |
     //Inactive   |    |      |     |
+    //Hiding     |    |   X  |  X  |
     class ScreenManager
     {
         public static List<BaseScreen> Screens
@@ -27,6 +28,7 @@ namespace EG2DCS.Engine.Screen_Manager
         public void New()
         {
             //Left this here in case we have anything that needs to start upon loading Screen Manager
+    
         }
         public void Update()
         {
@@ -64,12 +66,17 @@ namespace EG2DCS.Engine.Screen_Manager
                 {
                     case ScreenState.Active:
                         FoundScreen.Update();
+                        FoundScreen.HandleInput();
                         break;
                     case ScreenState.Frozen:
                         FoundScreen.Update();
                         break;
                     case ScreenState.Background:
                         FoundScreen.Update();
+                        break;
+                    case ScreenState.Hiding:
+                        FoundScreen.Update();
+                        FoundScreen.HandleInput();
                         break;
                 }
             }
@@ -85,7 +92,6 @@ namespace EG2DCS.Engine.Screen_Manager
                 {
                     case ScreenState.Active:
                         FoundScreen.Draw();
-                        FoundScreen.HandleInput();
                         break;
                     case ScreenState.Frozen:
                         FoundScreen.Draw();
@@ -102,7 +108,7 @@ namespace EG2DCS.Engine.Screen_Manager
             Screens.Add(screen);
         }
         //remove a screen
-        public static  void RemoveScreen(string screen)
+        public static void RemoveScreen(string screen)
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
@@ -179,7 +185,7 @@ namespace EG2DCS.Engine.Screen_Manager
                 BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name != exception)
                 {
-                    if (Force)
+                                       if (Force)
                     {
                         FoundScreen.State = ScreenState.Shutdown;
                     }

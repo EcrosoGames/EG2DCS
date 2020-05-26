@@ -15,7 +15,7 @@ namespace EG2DCS.Engine.Blanks
     {
         Double AniTime = 0;
         Vector2 PlayerPos = new Vector2(10, 10);
-        public void New()
+        public Gametest()
         {
             Name = "Gametest";
             State = ScreenState.Active;
@@ -41,6 +41,10 @@ namespace EG2DCS.Engine.Blanks
             if (Input.KeyPressed(Keys.Space))
             {
                 ScreenManager.AddScreen(new Default_Screen());
+            }
+            if (Input.KeyPressed(Keys.Escape))
+            {
+                ScreenManager.KillAll(false, "Gametest");
             }
         }
         public override void Update()

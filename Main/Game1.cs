@@ -39,7 +39,7 @@ namespace EG2DCS
             Universal.Debugging = true;
 
             base.Initialize();
-        }
+                    }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -56,7 +56,7 @@ namespace EG2DCS
             ScreenManager = new ScreenManager();
             //Add screens here
             ScreenManager.AddScreen(new Gametest());
-
+            ScreenManager.AddScreen(new Debug());
 
         }
 

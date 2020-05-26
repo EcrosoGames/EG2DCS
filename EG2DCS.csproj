@@ -51,6 +51,7 @@
     <Compile Include="Engine\Globals\Sounds.cs" />
     <Compile Include="Engine\Globals\Textures.cs" />
     <Compile Include="Engine\Screen Manager\BaseScreen.cs" />
+    <Compile Include="Engine\Screen Manager\Debug.cs" />
     <Compile Include="Engine\Screen Manager\ScreenManager.cs" />
     <Compile Include="Game Files\Gametest.cs" />
     <Compile Include="Main\Game1.cs" />

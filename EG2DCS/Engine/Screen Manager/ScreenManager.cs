@@ -28,7 +28,7 @@ namespace EG2DCS.Engine.Screen_Manager
         public void New()
         {
             //Left this here in case we have anything that needs to start upon loading Screen Manager
-    
+
         }
         public void Update()
         {
@@ -88,17 +88,28 @@ namespace EG2DCS.Engine.Screen_Manager
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
                 BaseScreen FoundScreen = Screens[i];
-                switch (FoundScreen.State)
+                if (FoundScreen.Name != "Debug")
                 {
-                    case ScreenState.Active:
-                        FoundScreen.Draw();
-                        break;
-                    case ScreenState.Frozen:
-                        FoundScreen.Draw();
-                        break;
-                    case ScreenState.Paused:
-                        FoundScreen.Draw();
-                        break;
+                    switch (FoundScreen.State)
+                    {
+                        case ScreenState.Active:
+                            FoundScreen.Draw();
+                            break;
+                        case ScreenState.Frozen:
+                            FoundScreen.Draw();
+                            break;
+                        case ScreenState.Paused:
+                            FoundScreen.Draw();
+                            break;
+                    }
+                }
+            }
+            for (int i = Screens.Count() - 1; i >= 0; i--)
+            {
+                BaseScreen FoundScreen = Screens[i];
+                if (FoundScreen.Name == "Debug")
+                {
+                    FoundScreen.Draw();
                 }
             }
         }
@@ -185,7 +196,7 @@ namespace EG2DCS.Engine.Screen_Manager
                 BaseScreen FoundScreen = Screens[i];
                 if (FoundScreen.Name != exception)
                 {
-                                       if (Force)
+                    if (Force)
                     {
                         FoundScreen.State = ScreenState.Shutdown;
                     }

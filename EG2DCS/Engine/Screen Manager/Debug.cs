@@ -48,7 +48,7 @@ namespace EG2DCS.Engine.Screen_Manager
         }
         public override void Draw()
         {
-            Universal.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            Universal.SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
             Universal.SpriteBatch.Draw(Textures.Null, new Rectangle(0, 0, 500, 20), new Color(0, 0, 0, 100));
             Universal.SpriteBatch.DrawString(Fonts.Arial_12, "Screens: " + ScreenList, new Vector2(0, 0), Color.White);

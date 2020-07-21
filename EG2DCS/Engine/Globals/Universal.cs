@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace EG2DCS.Engine.Globals
 {
@@ -14,5 +15,6 @@ namespace EG2DCS.Engine.Globals
         public static Vector2 GameSize;
         public static RenderTarget2D BackBuffer;
         public static bool Debugging;
+        public static Random rnd = new Random();
     }
 }

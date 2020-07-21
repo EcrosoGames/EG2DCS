@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using EG2DCS.Engine.Globals;
+using EG2DCS.Engine.Toast;
+using EG2DCS.Engine.Overlay;
+using EG2DCS.Engine.Widgets;
 
 namespace EG2DCS.Engine.Blanks
 {
@@ -19,6 +22,8 @@ namespace EG2DCS.Engine.Blanks
         {
             Name = "Gametest";
             State = ScreenState.Active;
+
+            AddWidget(new Button(300, 300, 75, 25, "Button"));
         }
 
         public override void HandleInput()
@@ -45,11 +50,23 @@ namespace EG2DCS.Engine.Blanks
             }
             if (Input.KeyPressed(Keys.Escape))
             {
-                ScreenManager.KillAll(false, "Gametest");
+                if (base.PopOverlay() == null)
+                {
+                    ScreenManager.KillAll(false, "Gametest");
+                }
+            }
+            if (Input.KeyPressed(Keys.D1))
+            {
+                PushToast(new BaseToast());
+            }
+            if (Input.KeyPressed(Keys.D2))
+            {
+                PushOverlay(new BaseOverlay(300, 200, 300, 200));
             }
         }
         public override void Update()
         {
+            base.Update();
             AniTime += Universal.GameTime.ElapsedGameTime.TotalMilliseconds;
             if (AniTime > 2)
             {
@@ -58,6 +75,7 @@ namespace EG2DCS.Engine.Blanks
         }
         public override void Draw()
         {
+            base.Draw();
             Universal.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
 
             Universal.SpriteBatch.Draw(Textures.Null, new Rectangle((int)PlayerPos.X, (int)PlayerPos.Y, 10, 10), Color.Red);

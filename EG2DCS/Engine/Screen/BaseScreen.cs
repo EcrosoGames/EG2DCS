@@ -2,7 +2,9 @@
 using EG2DCS.Engine.Overlay;
 using EG2DCS.Engine.Toast;
 using EG2DCS.Engine.Widgets;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -22,12 +24,29 @@ namespace EG2DCS.Engine.Screen_Manager
         private List<BaseToast> Toasts { get; } = new List<BaseToast>();
 
         private List<Widget> Widgets { get; } = new List<Widget>();
+        private List<Widget> Hovered { get; } = new List<Widget>();
 
         public virtual void HandleInput()
         {
             if (Overlays.Count > 0)
             {
                 Overlays[0].HandleInput();
+            }
+
+            MouseState mouseState = Mouse.GetState();
+            Point point = mouseState.Position;
+            foreach (Widget widget in Widgets)
+            {
+                if (widget.rectangle.Contains(point) && !Hovered.Contains(widget))
+                {
+                    widget.OnHover();
+                    Hovered.Add(widget);
+                }
+                else if (!widget.rectangle.Contains(point) && Hovered.Contains(widget))
+                {
+                    widget.OnUnHover();
+                    Hovered.Remove(widget);
+                }
             }
         }
         public virtual void Update()
@@ -94,6 +113,23 @@ namespace EG2DCS.Engine.Screen_Manager
             }
             Widgets.Clear();
             State = ScreenState.Shutdown;
+        }
+
+        public virtual void OnClick(bool left, int x, int y)
+        {
+            Point point = new Point(x, y);
+            foreach (Widget widget in Widgets)
+            {
+                if (widget.rectangle.Contains(point))
+                {
+                    widget.OnClick(left);
+                }
+            }
+        }
+
+        public virtual void OnUnClick(int x, int y)
+        {
+
         }
 
         public void PushOverlay(BaseOverlay overlay)

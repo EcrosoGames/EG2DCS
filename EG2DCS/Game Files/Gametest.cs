@@ -24,10 +24,14 @@ namespace EG2DCS.Engine.Blanks
             State = ScreenState.Active;
 
             AddWidget(new Button(300, 300, 75, 25, "Button"));
+            AddWidget(new Label(500, 300, 75, 25, "Label", Color.White, Color.Red));
+            AddWidget(new InputField(700, 300, 75, 25, "Input", Color.White, Color.Red));
         }
 
         public override void HandleInput()
         {
+            base.HandleInput();
+
             if (Input.KeyDown(Keys.W))
             {
                 PlayerPos.Y -= 1;

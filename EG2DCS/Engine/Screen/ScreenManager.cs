@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,9 @@ namespace EG2DCS.Engine.Screen_Manager
     //Hiding     |    |   X  |  X  |
     class ScreenManager
     {
+        private static bool lmbClicked = false;
+        private static bool rmbClicked = false;
+
         public static List<BaseScreen> Screens
         {
             get;
@@ -35,14 +39,14 @@ namespace EG2DCS.Engine.Screen_Manager
             //We iterate backwards here so that we can remove from the list more intuitvley and avoid concurent modifications.
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.State == ScreenState.Shutdown)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.State == ScreenState.Shutdown)
                 {
                     Screens.RemoveAt(i);
                 }
                 else
                 {
-                    FoundScreen.Focused = false;
+                    foundScreen.Focused = false;
                 }
             }
 
@@ -58,28 +62,32 @@ namespace EG2DCS.Engine.Screen_Manager
                     }
                 }
             }
+
+            PollInput();
+
             //Update the appropriate screens
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                switch (FoundScreen.State)
+                BaseScreen foundScreen = Screens[i];
+                switch (foundScreen.State)
                 {
                     case ScreenState.Active:
-                        FoundScreen.Update();
-                        FoundScreen.HandleInput();
+                        foundScreen.Update();
+                        foundScreen.HandleInput();
                         break;
                     case ScreenState.Frozen:
-                        FoundScreen.Update();
+                        foundScreen.Update();
                         break;
                     case ScreenState.Background:
-                        FoundScreen.Update();
+                        foundScreen.Update();
                         break;
                     case ScreenState.Hiding:
-                        FoundScreen.Update();
-                        FoundScreen.HandleInput();
+                        foundScreen.Update();
+                        foundScreen.HandleInput();
                         break;
                 }
             }
+
 
         }
         //Draw the appropriate screens
@@ -87,29 +95,29 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name != "Debug")
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name != "Debug")
                 {
-                    switch (FoundScreen.State)
+                    switch (foundScreen.State)
                     {
                         case ScreenState.Active:
-                            FoundScreen.Draw();
+                            foundScreen.Draw();
                             break;
                         case ScreenState.Frozen:
-                            FoundScreen.Draw();
+                            foundScreen.Draw();
                             break;
                         case ScreenState.Paused:
-                            FoundScreen.Draw();
+                            foundScreen.Draw();
                             break;
                     }
                 }
             }
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name == "Debug")
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name == "Debug")
                 {
-                    FoundScreen.Draw();
+                    foundScreen.Draw();
                 }
             }
         }
@@ -123,21 +131,21 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name == screen)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name == screen)
                 {
-                    FoundScreen.Remove();
+                    foundScreen.Remove();
                     break;
                 }
             }
         }
         //Find if a screen is loaded
-        public static bool Find(string Name)
+        public static bool Find(string name)
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (Name == FoundScreen.Name)
+                BaseScreen foundScreen = Screens[i];
+                if (name == foundScreen.Name)
                 {
                     return true;
                 }
@@ -149,13 +157,13 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name != exception)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name != exception)
                 {
-                    if (FoundScreen.Overridable)
+                    if (foundScreen.Overridable)
                     {
-                        FoundScreen.LastState = FoundScreen.State;
-                        FoundScreen.State = ScreenState.Paused;
+                        foundScreen.LastState = foundScreen.State;
+                        foundScreen.State = ScreenState.Paused;
                     }
                 }
             }
@@ -165,13 +173,13 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name != exception)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name != exception)
                 {
-                    if (FoundScreen.Overridable)
+                    if (foundScreen.Overridable)
                     {
-                        FoundScreen.LastState = FoundScreen.State;
-                        FoundScreen.State = ScreenState.Frozen;
+                        foundScreen.LastState = foundScreen.State;
+                        foundScreen.State = ScreenState.Frozen;
                     }
                 }
             }
@@ -181,30 +189,30 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Overridable)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Overridable)
                 {
-                    FoundScreen.State = FoundScreen.LastState;
+                    foundScreen.State = foundScreen.LastState;
                 }
             }
         }
         //MURDER all screens, option to force if overridable doesn't matter(ex. game over), also option for exception so you don't delete all your screens
-        public static void KillAll(bool Force, string exception)
+        public static void KillAll(bool force, string exception)
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (FoundScreen.Name != exception)
+                BaseScreen foundScreen = Screens[i];
+                if (foundScreen.Name != exception)
                 {
-                    if (Force)
+                    if (force)
                     {
-                        FoundScreen.State = ScreenState.Shutdown;
+                        foundScreen.State = ScreenState.Shutdown;
                     }
                     else
                     {
-                        if (FoundScreen.Overridable)
+                        if (foundScreen.Overridable)
                         {
-                            FoundScreen.State = ScreenState.Shutdown;
+                            foundScreen.State = ScreenState.Shutdown;
                         }
                     }
                 }
@@ -215,11 +223,49 @@ namespace EG2DCS.Engine.Screen_Manager
         {
             for (int i = Screens.Count() - 1; i >= 0; i--)
             {
-                BaseScreen FoundScreen = Screens[i];
-                if (name == FoundScreen.Name)
+                BaseScreen foundScreen = Screens[i];
+                if (name == foundScreen.Name)
                 {
-                    FoundScreen.State = State;
+                    foundScreen.State = State;
                 }
+            }
+        }
+
+        public static void PollInput()
+        {
+            MouseState mouseState = Mouse.GetState();
+            if (mouseState.LeftButton == ButtonState.Pressed && !lmbClicked)
+            {
+                lmbClicked = true;
+                for (int i = Screens.Count() - 1; i >= 0; i--)
+                {
+                    BaseScreen foundScreen = Screens[i];
+                    if (foundScreen.State == ScreenState.Active)
+                    {
+                        foundScreen.OnClick(true, mouseState.X, mouseState.Y);
+                    }
+                }
+            }
+            else if (mouseState.LeftButton != ButtonState.Pressed && lmbClicked)
+            {
+                lmbClicked = false;
+            }
+
+            if (mouseState.RightButton == ButtonState.Pressed && !rmbClicked)
+            {
+                rmbClicked = true;
+                for (int i = Screens.Count() - 1; i >= 0; i--)
+                {
+                    BaseScreen foundScreen = Screens[i];
+                    if (foundScreen.State == ScreenState.Active)
+                    {
+                        foundScreen.OnClick(false, mouseState.X, mouseState.Y);
+                    }
+                }
+            }
+            else if (mouseState.RightButton != ButtonState.Pressed && rmbClicked)
+            {
+                rmbClicked = false;
             }
         }
     }

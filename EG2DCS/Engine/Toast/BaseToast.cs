@@ -9,8 +9,6 @@ namespace EG2DCS.Engine.Toast
     {
         private Color color;
 
-        private Rectangle rectangle;
-
         private int timer = 0;
         private bool delay = false;
 
@@ -18,6 +16,11 @@ namespace EG2DCS.Engine.Toast
         private Vector2 to;
 
         private bool complete = false;
+
+        public BaseToast() : base(new Rectangle())
+        {
+
+        }
 
         public virtual void Start()
         {
@@ -33,9 +36,9 @@ namespace EG2DCS.Engine.Toast
             }));
         }
 
-        public virtual void Update()
+        public override void Update()
         {
-            base.Update(ref rectangle);
+            base.Update();
 
             if (delay)
             {

@@ -8,32 +8,32 @@ using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Animation
 {
-    public class MoveAnimation : BaseAnimation
+    public class ButtonHighlightAnimation : BaseAnimation
     {
-        private Vector2 step;
+        private float step;
         private int timer = 0;
         private int time;
 
-        private Action onComplete;
-
-        public MoveAnimation(Vector2 from, Vector2 to, int time, Action onComplete)
+        public ButtonHighlightAnimation(Animator animator, int time)
         {
-            step = (from - to) / time;
+            step = animator.rectangle.Width / (float)time;
             this.time = time;
-            this.onComplete = onComplete;
         }
 
         public override void Update(Animator animator)
         {
-            animator.rectangle.X += (int)step.X;
-            animator.rectangle.Y += (int)step.Y;
+            if (animator.GetType() != typeof(Button))
+                return;
+
+            Button button = (Button)animator;
+
+            button.highlightWidth = Math.Min(button.highlightWidth + step, button.rectangle.Width);
 
             this.timer++;
 
             if (timer == time)
             {
                 complete = true;
-                onComplete.Invoke();
             }
         }
     }

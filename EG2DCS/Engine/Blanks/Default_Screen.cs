@@ -12,10 +12,7 @@ namespace EG2DCS.Engine.Blanks
             Name = "DefaultScreen";
             State = ScreenState.Active;
         }
-        public override void HandleInput()
-        {
 
-        }
         public override void Update()
         {
             AniTime += Universal.GameTime.ElapsedGameTime.TotalMilliseconds;

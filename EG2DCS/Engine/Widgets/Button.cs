@@ -13,9 +13,19 @@ namespace EG2DCS.Engine.Widgets
     {
         private string text;
 
-        public Button(int x, int y, int width, int height, string text) : base(x, y, width, height)
+        private Color highlightColor;
+        public float highlightWidth = 0;
+
+        private ButtonHighlightAnimation currentAnim;
+
+        public Button(int x, int y, int width, int height, string text) : this(x, y, width, height, text, Color.White, new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255))
+        {
+        }
+
+        public Button(int x, int y, int width, int height, string text, Color textColor, Color highlightColor) : base(x, y, width, height)
         {
             this.text = text;
+            this.highlightColor = highlightColor;
         }
 
         public override void Update()
@@ -26,11 +36,31 @@ namespace EG2DCS.Engine.Widgets
         public override void Draw()
         {
             base.Draw();
+            Rectangle higlightRect = new Rectangle(rectangle.Location, rectangle.Size);
+            higlightRect.Width = (int)highlightWidth;
+            Universal.SpriteBatch.Draw(Textures.Null, higlightRect, highlightColor);
             Universal.SpriteBatch.DrawString(Fonts.Arial_12, text, new Vector2(rectangle.X, rectangle.Y), Color.White);
         }
 
         public override void Remove()
         {
+        }
+
+        public override void OnHover()
+        {
+            base.AddAnimation(currentAnim = new ButtonHighlightAnimation(this, 20));
+        }
+
+        public override void OnUnHover()
+        {
+            highlightWidth = 0;
+            currentAnim.SetComplete();
+        }
+
+        public override void OnClick(bool lmb)
+        {
+            Console.WriteLine("Button Clicked!");
+            base.OnClick(lmb);
         }
     }
 }

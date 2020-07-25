@@ -12,11 +12,9 @@ namespace EG2DCS.Engine.Overlay
     public class BaseOverlay : Animator
     {
         private Color color;
-        private Rectangle rectangle;
 
-        public BaseOverlay(int x, int y, int width, int height)
+        public BaseOverlay(int x, int y, int width, int height) : base(new Rectangle(x, y, width, height))
         {
-            rectangle = new Rectangle(x, y, width, height);
             color = new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255);
         }
         public virtual void HandleInput()

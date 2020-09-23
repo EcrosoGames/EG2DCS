@@ -42,7 +42,7 @@ namespace EG2DCS.Engine.Widgets
         public override void Draw()
         {
             base.Draw();
-            Universal.SpriteBatch.DrawString(Fonts.Arial_12, text, new Vector2(rectangle.X, rectangle.Y), selected ? selectedColor : textColor);
+            //Universal.SpriteBatch.DrawString(Fonts.Arial_12, text, new Vector2(rectangle.X, rectangle.Y), textColor);
         }
 
         public override void Remove()

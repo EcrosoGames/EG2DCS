@@ -23,9 +23,9 @@ namespace EG2DCS.Engine.Blanks
             Name = "Gametest";
             State = ScreenState.Active;
 
+            AddWidget(new InputField(700, 300, 75, 25, "Input", Color.Gray, Color.Orange));
             AddWidget(new Button(300, 300, 75, 25, "Button"));
             AddWidget(new Label(500, 300, 75, 25, "Label", Color.White, Color.Red));
-            AddWidget(new InputField(700, 300, 75, 25, "Input", Color.White, Color.Red));
         }
 
         public override void HandleInput()

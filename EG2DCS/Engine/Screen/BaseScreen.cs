@@ -79,16 +79,12 @@ namespace EG2DCS.Engine.Screen_Manager
             {
                 Overlays[i].Draw();
             }
-            Universal.SpriteBatch.End();
-
-            Universal.SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            
             for (int i = Toasts.Count - 1; i >= 0; i--)
             {
                 Toasts[i].Draw();
             }
-            Universal.SpriteBatch.End();
-
-            Universal.SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            
             for (int i = Widgets.Count - 1; i >= 0; i--)
             {
                 Widgets[i].Draw();

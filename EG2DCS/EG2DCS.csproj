@@ -44,15 +44,25 @@
   <ItemGroup>
     <Compile Include="Engine\Add Ons\DrawLive.cs" />
     <Compile Include="Engine\Add Ons\Maths.cs" />
+    <Compile Include="Engine\Animation\Animator.cs" />
+    <Compile Include="Engine\Animation\BaseAnimation.cs" />
+    <Compile Include="Engine\Animation\ButtonHighlightAnimation.cs" />
+    <Compile Include="Engine\Animation\MoveAnimation.cs" />
     <Compile Include="Engine\Blanks\Default_Screen.cs" />
     <Compile Include="Engine\Globals\Fonts.cs" />
     <Compile Include="Engine\Globals\Universal.cs" />
     <Compile Include="Engine\Globals\Input.cs" />
     <Compile Include="Engine\Globals\Sounds.cs" />
     <Compile Include="Engine\Globals\Textures.cs" />
-    <Compile Include="Engine\Screen Manager\BaseScreen.cs" />
-    <Compile Include="Engine\Screen Manager\Debug.cs" />
-    <Compile Include="Engine\Screen Manager\ScreenManager.cs" />
+    <Compile Include="Engine\Overlay\BaseOverlay.cs" />
+    <Compile Include="Engine\Screen\BaseScreen.cs" />
+    <Compile Include="Engine\Screen\Debug.cs" />
+    <Compile Include="Engine\Screen\ScreenManager.cs" />
+    <Compile Include="Engine\Toast\BaseToast.cs" />
+    <Compile Include="Engine\Widgets\Button.cs" />
+    <Compile Include="Engine\Widgets\InputField.cs" />
+    <Compile Include="Engine\Widgets\Label.cs" />
+    <Compile Include="Engine\Widgets\Widget.cs" />
     <Compile Include="Game Files\Gametest.cs" />
     <Compile Include="Main\Game1.cs" />
     <Compile Include="Main\Program.cs" />
@@ -119,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Engine\Sample Screens\" />
+    <Folder Include="Engine\Screen Manager\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

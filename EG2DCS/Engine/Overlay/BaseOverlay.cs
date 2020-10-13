@@ -11,23 +11,19 @@ namespace EG2DCS.Engine.Overlay
 {
     public class BaseOverlay : Animator
     {
-        private Color color;
+        public Color Color { get; set; } = Color.White;
 
         public BaseOverlay(int x, int y, int width, int height) : base(new Rectangle(x, y, width, height))
         {
-            color = new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255);
         }
         public virtual void HandleInput()
         {
 
         }
-        public virtual void Update()
-        {
 
-        }
         public virtual void Draw()
         {
-            Universal.SpriteBatch.Draw(Textures.Null, rectangle, color);
+            Universal.SpriteBatch.Draw(Textures.Null, Rectangle, Color);
         }
         public virtual void Remove()
         {

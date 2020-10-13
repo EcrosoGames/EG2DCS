@@ -25,14 +25,14 @@ namespace EG2DCS.Engine.Animation
 
         public override void Update(Animator animator)
         {
-            animator.rectangle.X += (int)step.X;
-            animator.rectangle.Y += (int)step.Y;
+            animator.Rectangle.X += (int)step.X;
+            animator.Rectangle.Y += (int)step.Y;
 
             this.timer++;
 
             if (timer == time)
             {
-                complete = true;
+                Complete = true;
                 onComplete.Invoke();
             }
         }

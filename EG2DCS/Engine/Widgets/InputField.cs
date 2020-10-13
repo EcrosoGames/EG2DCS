@@ -1,6 +1,8 @@
 ﻿using EG2DCS.Engine.Animation;
 using EG2DCS.Engine.Globals;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,29 +11,16 @@ using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Widgets
 {
-    public class InputField : Widget
+    public class InputField : TextWidget, IFocusable
     {
-        private string text;
-        private Color textColor;
-        private Color selectedColor;
+        public string PlaceholderText { get; set; }
+        public Color SelectedColor { get; set; }
 
         private bool selected = false;
 
-        public InputField(int x, int y, int width, int height, string text) : this(x, y, width, height, text,
-            new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255),
-            new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255))
+        public InputField(int x, int y, int width, int height, string text) : base(x, y, width, height, text)
         {
-        }
 
-        public InputField(int x, int y, int width, int height, string text, Color textColor) : this(x, y, width, height, text, textColor, textColor)
-        {
-        }
-
-        public InputField(int x, int y, int width, int height, string text, Color textColor, Color selectedColor) : base(x, y, width, height)
-        {
-            this.text = text;
-            this.textColor = textColor;
-            this.selectedColor = selectedColor;
         }
 
         public override void Update()
@@ -42,19 +31,45 @@ namespace EG2DCS.Engine.Widgets
         public override void Draw()
         {
             base.Draw();
-            //Universal.SpriteBatch.DrawString(Fonts.Arial_12, text, new Vector2(rectangle.X, rectangle.Y), textColor);
+            if (selected)
+                Universal.SpriteBatch.Draw(Textures.Null, Rectangle, SelectedColor);
+            Universal.SpriteBatch.DrawString(TextFont, Text.Length == 0 ? PlaceholderText : Text, new Vector2(Rectangle.X, Rectangle.Y), TextColor);
         }
 
         public override void Remove()
         {
         }
 
-        public override void OnClick(bool lmb)
+        public void onFocus()
         {
-            if(lmb)
+            selected = true;
+        }
+
+        public void onUnFocus()
+        {
+            selected = false;
+        }
+
+
+        public bool onKeyPress(Keys key)
+        {
+            if (key >= Keys.A && key <= Keys.Z)
             {
-                selected = true;
+                if (Input.KeyDown(Keys.LeftShift) || Input.KeyDown(Keys.RightShift))
+                    Text += key.ToString();
+                else
+                    Text += key.ToString().ToLower();
             }
+            else if (key == Keys.Back && Text.Length > 0)
+            {
+                Text = Text.Substring(0, Text.Length - 1);
+            }
+            return true;
+        }
+
+        public bool onKeyRelease(Keys key)
+        {
+            return true;
         }
     }
 }

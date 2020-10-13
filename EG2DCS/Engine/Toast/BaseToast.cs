@@ -7,30 +7,32 @@ namespace EG2DCS.Engine.Toast
 {
     public class BaseToast : Animator
     {
-        private Color color;
+        public Color Color { get; set; } = Color.White;
+
+        public int AnimationTime { get; set; } = 120;
 
         private int timer = 0;
         private bool delay = false;
+
+        private Vector2 size;
 
         private Vector2 from;
         private Vector2 to;
 
         private bool complete = false;
 
-        public BaseToast() : base(new Rectangle())
+        public BaseToast(Vector2 size) : base(new Rectangle())
         {
-
+            this.size = size;
         }
 
         public virtual void Start()
         {
-            color = new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255);
+            from = new Vector2(Universal.GameSize.X + 50, 100);
+            to = new Vector2((from.X - size.X) - 150, 100);
 
-            from = new Vector2((Universal.GameSize.X / 2) - 250, Universal.GameSize.Y + 100);
-            to = new Vector2(from.X, from.Y - 300);
-
-            rectangle = new Rectangle((int)from.X, (int)from.Y, 500, 100);
-            base.AddAnimation(new MoveAnimation(to, from, 120, () =>
+            Rectangle = new Rectangle((int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
+            base.AddAnimation(new MoveAnimation(to, from, AnimationTime, () =>
             {
                 delay = true;
             }));
@@ -45,7 +47,7 @@ namespace EG2DCS.Engine.Toast
                 if (timer == 240)
                 {
                     delay = false;
-                    base.AddAnimation(new MoveAnimation(from, to, 120, () =>
+                    base.AddAnimation(new MoveAnimation(from, to, AnimationTime, () =>
                     {
                         complete = true;
                     }));
@@ -60,7 +62,7 @@ namespace EG2DCS.Engine.Toast
             if (complete)
                 return;
 
-            Universal.SpriteBatch.Draw(Textures.Null, rectangle, color);
+            Universal.SpriteBatch.Draw(Textures.Null, Rectangle, Color);
         }
 
         public virtual void Remove()

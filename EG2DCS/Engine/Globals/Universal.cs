@@ -15,6 +15,6 @@ namespace EG2DCS.Engine.Globals
         public static Vector2 GameSize;
         public static RenderTarget2D BackBuffer;
         public static bool Debugging;
-        public static Random rnd = new Random();
+        public static Random Rand { get; } = new Random();
     }
 }

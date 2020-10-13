@@ -16,24 +16,24 @@ namespace EG2DCS.Engine.Animation
 
         public ButtonHighlightAnimation(Animator animator, int time)
         {
-            step = animator.rectangle.Width / (float)time;
+            step = animator.Rectangle.Width / (float)time;
             this.time = time;
         }
 
         public override void Update(Animator animator)
         {
-            if (animator.GetType() != typeof(Button))
+            if (animator.GetType() != typeof(Button) || Complete)
                 return;
 
             Button button = (Button)animator;
 
-            button.highlightWidth = Math.Min(button.highlightWidth + step, button.rectangle.Width);
+            button.highlightWidth = Math.Min(button.highlightWidth + step, button.Rectangle.Width);
 
             this.timer++;
 
             if (timer == time)
             {
-                complete = true;
+                Complete = true;
             }
         }
     }

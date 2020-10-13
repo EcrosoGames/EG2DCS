@@ -54,9 +54,9 @@ namespace EG2DCS
             Sounds.Load();
             Fonts.Load();
             ScreenManager = new ScreenManager();
-            //Add screens here
-            ScreenManager.AddScreen(new Gametest());
-            ScreenManager.AddScreen(new Debug());
+            //Add screens here           
+            ScreenManager.RegisterScreen(new Gametest());
+            ScreenManager.SetActive("game_test");
 
         }
 
@@ -89,13 +89,11 @@ namespace EG2DCS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Universal.Graphics.GraphicsDevice.SetRenderTarget(Universal.BackBuffer);
-            Universal.Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            Universal.SpriteBatch.Begin();
             base.Draw(gameTime);
             ScreenManager.Draw();
-            Universal.Graphics.GraphicsDevice.SetRenderTarget(null);
-            Universal.SpriteBatch.Begin();
-            Universal.SpriteBatch.Draw(Universal.BackBuffer, new Rectangle(0, 0, Universal.Graphics.GraphicsDevice.Viewport.Width, Universal.Graphics.GraphicsDevice.Viewport.Height), new Color(255, 255, 255));
             Universal.SpriteBatch.End();
         }
     }

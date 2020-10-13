@@ -10,21 +10,28 @@ using System.Collections.Generic;
 
 namespace EG2DCS.Engine.Screen_Manager
 {
-    public abstract class BaseScreen
+    public abstract class BaseScreen : KeyListener
     {
-        public string Name = "N/a";
-        public ScreenState State;
-        public ScreenState LastState;
-        public float Position;
-        public bool Focused;
-        public bool GrabFocus;
-        public bool Overridable = true;
+        public string Id = "N/a";
+
+        public IFocusable focusedWidget = null;
+        public KeyListener cachedListner = null;
 
         private List<BaseOverlay> Overlays { get; } = new List<BaseOverlay>();
         private List<BaseToast> Toasts { get; } = new List<BaseToast>();
 
         private List<Widget> Widgets { get; } = new List<Widget>();
         private List<Widget> Hovered { get; } = new List<Widget>();
+
+        public virtual void Load()
+        {
+
+        }
+
+        public virtual void Unload()
+        {
+
+        }
 
         public virtual void HandleInput()
         {
@@ -37,12 +44,12 @@ namespace EG2DCS.Engine.Screen_Manager
             Point point = mouseState.Position;
             foreach (Widget widget in Widgets)
             {
-                if (widget.rectangle.Contains(point) && !Hovered.Contains(widget))
+                if (widget.Rectangle.Contains(point) && !Hovered.Contains(widget))
                 {
                     widget.OnHover();
                     Hovered.Add(widget);
                 }
-                else if (!widget.rectangle.Contains(point) && Hovered.Contains(widget))
+                else if (!widget.Rectangle.Contains(point) && Hovered.Contains(widget))
                 {
                     widget.OnUnHover();
                     Hovered.Remove(widget);
@@ -74,22 +81,20 @@ namespace EG2DCS.Engine.Screen_Manager
         }
         public virtual void Draw()
         {
-            Universal.SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
             for (int i = Overlays.Count - 1; i >= 0; i--)
             {
                 Overlays[i].Draw();
             }
-            
+
             for (int i = Toasts.Count - 1; i >= 0; i--)
             {
                 Toasts[i].Draw();
             }
-            
+
             for (int i = Widgets.Count - 1; i >= 0; i--)
             {
                 Widgets[i].Draw();
             }
-            Universal.SpriteBatch.End();
         }
         public virtual void Remove()
         {
@@ -108,18 +113,40 @@ namespace EG2DCS.Engine.Screen_Manager
                 Widgets[i].Remove();
             }
             Widgets.Clear();
-            State = ScreenState.Shutdown;
         }
 
         public virtual void OnClick(bool left, int x, int y)
         {
+            bool focusChange = false;
             Point point = new Point(x, y);
             foreach (Widget widget in Widgets)
             {
-                if (widget.rectangle.Contains(point))
+                if (widget.Rectangle.Contains(point))
                 {
+                    if (widget is IFocusable)
+                    {
+                        focusChange = true;
+                        if (focusedWidget != widget)
+                        {
+                            if (focusedWidget != null)
+                                focusedWidget.onUnFocus();
+                            focusedWidget = (IFocusable)widget;
+                            cachedListner = Input.getCurrentKeyListener();
+                            Input.setCurrentKeyListener(this);
+
+                            focusedWidget.onFocus();
+                        }
+                    }
                     widget.OnClick(left);
                 }
+            }
+
+            if (!focusChange && focusedWidget != null)
+            {
+                focusedWidget.onUnFocus();
+                focusedWidget = null;
+                Input.setCurrentKeyListener(cachedListner);
+                cachedListner = null;
             }
         }
 
@@ -152,6 +179,20 @@ namespace EG2DCS.Engine.Screen_Manager
         public void AddWidget(Widget widget)
         {
             Widgets.Add(widget);
+        }
+
+        public virtual bool onKeyPress(Keys key)
+        {
+            if (focusedWidget != null)
+                return focusedWidget.onKeyPress(key);
+            return false;
+        }
+
+        public virtual bool onKeyRelease(Keys key)
+        {
+            if (focusedWidget != null)
+                return focusedWidget.onKeyRelease(key);
+            return false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using EG2DCS.Engine.Animation;
 using EG2DCS.Engine.Globals;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +10,32 @@ using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Widgets
 {
-    public class Button : Widget
+    public class Button : TextWidget
     {
-        private string text;
-
-        private Color highlightColor;
+        public Color HighlightColor { get; set; } = Color.Pink;
         public float highlightWidth = 0;
 
         private ButtonHighlightAnimation currentAnim;
 
-        public Button(int x, int y, int width, int height, string text) : this(x, y, width, height, text, Color.White, new Color(Universal.rnd.Next(256), Universal.rnd.Next(256), Universal.rnd.Next(256), 255))
-        {
-        }
+        private Func<bool> clickHandler;
 
-        public Button(int x, int y, int width, int height, string text, Color textColor, Color highlightColor) : base(x, y, width, height)
+        public Button(int x, int y, int width, int height, string text, Func<bool> clickHandler) : base(x, y, width, height, text)
         {
-            this.text = text;
-            this.highlightColor = highlightColor;
-        }
-
-        public override void Update()
-        {
-            base.Update();
+            this.clickHandler = clickHandler;
         }
 
         public override void Draw()
         {
             base.Draw();
-            Rectangle higlightRect = new Rectangle(rectangle.Location, rectangle.Size);
-            higlightRect.Width = (int)highlightWidth;
-            Universal.SpriteBatch.Draw(Textures.Null, higlightRect, highlightColor);
-            Universal.SpriteBatch.DrawString(Fonts.Arial_12, text, new Vector2(rectangle.X, rectangle.Y), Color.White);
-        }
+            Rectangle highlightRect = new Rectangle(Rectangle.Location, Rectangle.Size);
+            highlightRect.Width = (int)highlightWidth;
+            Universal.SpriteBatch.Draw(Textures.Null, highlightRect, HighlightColor);
+            Vector2 textMesurements = TextFont.MeasureString(Text);
 
-        public override void Remove()
-        {
+            if (CenterText)
+                Universal.SpriteBatch.DrawString(TextFont, Text, new Vector2(Rectangle.X + ((Rectangle.Width - textMesurements.X) / 2), Rectangle.Y + ((Rectangle.Height - textMesurements.Y) / 2)), TextColor);
+            else
+                Universal.SpriteBatch.DrawString(TextFont, Text, new Vector2(Rectangle.X, Rectangle.Y), TextColor);
         }
 
         public override void OnHover()
@@ -54,13 +46,13 @@ namespace EG2DCS.Engine.Widgets
         public override void OnUnHover()
         {
             highlightWidth = 0;
-            currentAnim.SetComplete();
+            currentAnim.Complete = true;
         }
 
         public override void OnClick(bool lmb)
         {
-            Console.WriteLine("Button Clicked!");
             base.OnClick(lmb);
+            clickHandler.Invoke();
         }
     }
 }

@@ -16,21 +16,36 @@ namespace EG2DCS.Engine.Blanks
 {
     public class Gametest : BaseScreen
     {
-        private double AniTime = 0;
         private Vector2 PlayerPos = new Vector2(10, 10);
         public Gametest()
         {
-            Name = "Gametest";
-            State = ScreenState.Active;
+            Id = "game_test";
 
-            AddWidget(new InputField(700, 300, 75, 25, "Input", Color.Gray, Color.Orange));
-            AddWidget(new Button(300, 300, 75, 25, "Button"));
-            AddWidget(new Label(500, 300, 75, 25, "Label", Color.White, Color.Red));
+            InputField inputField = new InputField(700, 300, 75, 25, "");
+            inputField.TextColor = Color.Gray;
+            inputField.SelectedColor = Color.Orange;
+            inputField.PlaceholderText = "Input";
+            inputField.setBorder(2, Color.Black);
+            AddWidget(inputField);
+            AddWidget(new Button(300, 300, 75, 25, "Button", () => { return true; }));
+            AddWidget(new Button(400, 300, 75, 25, "Button", () => { return true; }));
+            Label label = new Label(500, 300, 75, 25, "Label");
+            label.TextColor = Color.White;
+            label.BackgroundColor = Color.Red;
+            AddWidget(label);
+        }
+
+        public override void Load()
+        {
+            Input.setCurrentKeyListener(this);
         }
 
         public override void HandleInput()
         {
             base.HandleInput();
+
+            if (base.focusedWidget != null)
+                return;
 
             if (Input.KeyDown(Keys.W))
             {
@@ -48,20 +63,14 @@ namespace EG2DCS.Engine.Blanks
             {
                 PlayerPos.X += 1;
             }
-            if (Input.KeyPressed(Keys.Space))
-            {
-                ScreenManager.AddScreen(new Default_Screen());
-            }
+
             if (Input.KeyPressed(Keys.Escape))
             {
-                if (base.PopOverlay() == null)
-                {
-                    ScreenManager.KillAll(false, "Gametest");
-                }
+                base.PopOverlay();
             }
             if (Input.KeyPressed(Keys.D1))
             {
-                PushToast(new BaseToast());
+                PushToast(new BaseToast(new Vector2(300, 50)));
             }
             if (Input.KeyPressed(Keys.D2))
             {
@@ -71,20 +80,31 @@ namespace EG2DCS.Engine.Blanks
         public override void Update()
         {
             base.Update();
-            AniTime += Universal.GameTime.ElapsedGameTime.TotalMilliseconds;
-            if (AniTime > 2)
-            {
-                AniTime = 0;
-            }
         }
         public override void Draw()
         {
             base.Draw();
-            Universal.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-
             Universal.SpriteBatch.Draw(Textures.Null, new Rectangle((int)PlayerPos.X, (int)PlayerPos.Y, 10, 10), Color.Red);
+        }
 
-            Universal.SpriteBatch.End();
+        public override bool onKeyPress(Keys key)
+        {
+            if (!base.onKeyPress(key))
+            {
+                Console.WriteLine("Here: " + key);
+                return false;
+            }
+            return true;
+        }
+
+        public override bool onKeyRelease(Keys key)
+        {
+            if (!base.onKeyRelease(key))
+            {
+                Console.WriteLine("Here R: " + key);
+                return false;
+            }
+            return true;
         }
     }
 }

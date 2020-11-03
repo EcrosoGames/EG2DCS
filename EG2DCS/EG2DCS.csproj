@@ -64,6 +64,7 @@
     <Compile Include="Engine\Widgets\TextWidget.cs" />
     <Compile Include="Engine\Widgets\Widget.cs" />
     <Compile Include="Game Files\Gametest.cs" />
+    <Compile Include="Main\FrameCounter.cs" />
     <Compile Include="Main\Game1.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

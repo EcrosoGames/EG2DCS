@@ -1,10 +1,9 @@
 ﻿using EG2DCS.Engine.Blanks;
 using EG2DCS.Engine.Globals;
 using EG2DCS.Engine.Screen_Manager;
+using EG2DCS.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace EG2DCS
 {
@@ -13,7 +12,12 @@ namespace EG2DCS
     /// </summary>
     public class Game1 : Game
     {
-        ScreenManager ScreenManager;
+        private FrameCounter _frameCounter = new FrameCounter();
+        private double _timer = 0;
+        private int _updates = 0;
+        private const float updateTime = 1f / 60;
+        private string fps = "";
+
         public Game1()
         {
             Universal.Graphics = new GraphicsDeviceManager(this);
@@ -33,8 +37,8 @@ namespace EG2DCS
             Universal.Graphics.PreferredBackBufferWidth = (int)Universal.GameSize.X;
             Universal.Graphics.PreferredBackBufferHeight = (int)Universal.GameSize.Y;
             Universal.BackBuffer = new RenderTarget2D(Universal.Graphics.GraphicsDevice, (int)Universal.GameSize.X, (int)Universal.GameSize.Y, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-            Universal.Graphics.SynchronizeWithVerticalRetrace = true;
-            this.IsFixedTimeStep = true;
+            Universal.Graphics.SynchronizeWithVerticalRetrace = false;
+            IsFixedTimeStep = false;
             Universal.Graphics.ApplyChanges();
             Universal.Debugging = true;
 
@@ -53,7 +57,6 @@ namespace EG2DCS
             Textures.Load();
             Sounds.Load();
             Fonts.Load();
-            ScreenManager = new ScreenManager();
             //Add screens here           
             ScreenManager.RegisterScreen(new Gametest());
             ScreenManager.SetActive("game_test");
@@ -76,11 +79,22 @@ namespace EG2DCS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            Universal.WindowFocused = this.IsActive;
-            Universal.GameTime = gameTime;
-            ScreenManager.Update();
-            Input.Update();
+            _timer += gameTime.ElapsedGameTime.TotalSeconds;
+
+            while (_timer >= updateTime)
+            {
+                base.Update(gameTime);
+                Universal.WindowFocused = this.IsActive;
+                Universal.GameTime = gameTime;
+                ScreenManager.Update();
+                Input.Update();
+                _timer -= updateTime;
+                _updates++;
+                if (_updates % 60 == 0)
+                {
+                    fps = string.Format("FPS: {0}", _frameCounter.AverageFramesPerSecond);
+                }
+            }
         }
 
         /// <summary>
@@ -91,9 +105,13 @@ namespace EG2DCS
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _frameCounter.Update(deltaTime);
+
             Universal.SpriteBatch.Begin();
             base.Draw(gameTime);
             ScreenManager.Draw();
+            Universal.SpriteBatch.DrawString(Fonts.Arial_12, fps, new Vector2(25, 25), Color.White);
             Universal.SpriteBatch.End();
         }
     }

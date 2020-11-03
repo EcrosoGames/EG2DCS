@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EG2DCS.Engine.Screen_Manager
 {
-    class ScreenManager
+    public class ScreenManager
     {
         private static bool lmbClicked = false;
         private static bool rmbClicked = false;
@@ -19,7 +19,7 @@ namespace EG2DCS.Engine.Screen_Manager
 
         private static BaseScreen currentScreen;
 
-        public void Update()
+        public static void Update()
         {
 
             PollInput();
@@ -30,7 +30,7 @@ namespace EG2DCS.Engine.Screen_Manager
             }
         }
         //Draw the appropriate screens
-        public void Draw()
+        public static void Draw()
         {
             if (currentScreen != null)
             {
